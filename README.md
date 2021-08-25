@@ -1,4 +1,5 @@
 # devops-netology
+Новая строка 
 For educational purposes (devops-netology)
 Some changes for exercise
 Созданный .gitignore (в директории terraform) даёт понять git что надо игнорировать в директории terraform
