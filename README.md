@@ -64,4 +64,4 @@
 7. Автор функции **synchronizedWriters**:
    * Martin Atkins
    
-   **Решение**: `git log -S globalPluginDirs --pretty=format:"%h | %an | %cn"`
+   **Решение**: `git log -S synchronizedWriters --pretty=format:"%h | %an | %cn"`
