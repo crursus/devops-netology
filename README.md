@@ -44,7 +44,8 @@
 	* `mkdir /tmp/new_patch_directory`
 	* `cp /bin/bash /tmp/new_patch_directory/`
 	* `PATH=/tmp/new_patch_directory/:$PATH`
-	![Proof](https://octodex.github.com/images/proof-03-sa-01.png)	
+	
+![Proof](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-01.png)	
 
 1. Планирование команд с помощью `batch` и `at` отличается условиями выполнения:
 	* `at` выполняет команды в указанное время
