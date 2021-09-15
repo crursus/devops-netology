@@ -1,67 +1,53 @@
-# devops-netology
-Выполнено клонирование репозитория с исходным кодом терраформа в локальный репозиторий.
-
-1. Полный хеш и комментарий коммита **aefead220** следующие:
-   * **aefead2207ef7e2aa5dc81a34aedf0cad4c32545**
-   * **Update CHANGELOG.md**
-   
-   **Решение**: `git log aefea -1 --pretty=oneline`
-   
-
-2. Коммит **85024d310** соответствует следующему тегу:
-   * **v0.12.23**
-   
-   **Решение**: `git log -1 85024d3`
-   
-
-3. У коммита **b8d720** 2 родителя, с следующими хешами
-   * **56cd7859e05c36c06b56d013b55a252d0bb7e158**
-   * **9ea88f22fc6269854151c571162c5bcf958bee2b**
-   
-   **Решение**: `git log --pretty=%P -n 1 b8d720`
-
-   
-4. Хеши и комментарии всех коммитов сделанные между тегами **v0.12.23** и **v0.12.24** следующие:
-   * **b14b74c4939dcab573326f4e3ee2a62e23e12f89**
-      * [Website] vmc provider links 
-   * **3f235065b9347a758efadc92295b540ee0a5e26e**
-      * Update CHANGELOG.md
-   * **6ae64e247b332925b872447e9ce869657281c2bf**
-      * registry: Fix panic when server is unreachable
-   * **5c619ca1baf2e21a155fcdb4c264cc9e24a2a353** 
-      * website: Remove links to the getting started guide's old location
-   * **06275647e2b53d97d4f0a19a0fec11f6d69820b5**
-      * Update CHANGELOG.md
-   * **d5f9411f5108260320064349b757f55c09bc4b80**
-      * command: Fix bug when using terraform login on Windows
-   * **4b6d06cc5dcb78af637bbb19c198faff37a066ed**
-      * Update CHANGELOG.md
-   * **dd01a35078f040ca984cdd349f18d0b67e486c35**
-      * Update CHANGELOG.md
-   * **225466bc3e5f35baa5d07197bbc079345b77525e**
-      * Cleanup after v0.12.23 release
-
-   **Решение**: `git log v0.12.22..v0.12.24 --pretty=oneline`
+#03-sysadmin-01-terminal
+**Домашнее задание к занятию "3.1. Работа в терминале, лекция 1"**
 
 
-5. Коммит в котором была создана функция **func providerSource** следующий:
-   * **8c928e83589d90a031f811fae52a81be7153e82f**
-   
-   **Решение**: `git log -S 'func providerSource('`
-   
+1. Установил средство виртуализации Oracle VirtualBox.
+1. Установил средство автоматизации Hashicorp Vagrant.
+1. Подготовил следующие терминалы:
+	* Xshell
+	* Windows Terminal
+	* Git Bash
+	* Cygwin
+1. С помощью базового файла конфигурации запустил Ubuntu 20.04 в VirtualBox посредством Vagrant:
+	* Создал директорию `vagrantconf`.
+	* Выполнил в ней `vagrant init`.
+	* Заменил содержимое Vagrantfile по умолчанию следующим:
 
-6. Все коммиты в которых была изменена функция **globalPluginDirs** следующие:
-   * **35a058fb3ddfae9cfee0b3893822c9a95b920f4c**
-     * main: configure credentials from the CLI config file
-   * **c0b17610965450a89598da491ce9b6b5cbd6393f**
-     * prevent log output during init
-   * **8364383c359a6b738a436d1b7745ccdce178df47**
-      * Push plugin discovery down into command package
+		```bash
+		Vagrant.configure("2") do |config|
+			config.vm.box = "bento/ubuntu-20.04"
+		end
+		```
+	* Выполнил `vagrant up`, `vagrant suspend`, `vagrant halt`, `vagrant status`.
+1. Ознакомился с графическим интерфейсом VirtualBox, аппаратные ресурсы выделенные ВМ по-умолчанию:
+   * LP: 2 ядра
+   * RAM: 1 ГБ
+   * HDD: 64 ГБ
+   * VRAM: 4 МБ
+1. Ознакомился с возможностями конфигурации VirtualBox через Vagrantfile. Добавить оперативной памяти или ресурсов процессора виртуальной машине можно следующими параметрами в разделе `config.vm.provider "virtualbox" do |v|`, например:
+   * `v.memory = 2048`
+   * `v.cpus = 4`
+1. Подключился к виртуальной машине. Попрактиковался в выполнении обсуждаемых команд. Есть, кстати, команда `vimtutor`.
+1. Ознакомился с разделами `man bash`, почитал о настройках bash:
+    * задать длину журнала `history` можно переменной HISTSIZE, строка **697**
+    * Значение `ignoreboth` переменной `HISTCONTROL` является сокращением для двух значений:
+		* `ignorespace` - строка с символом **"пробела"** не сохраняется в истории
+		* `ignoredups` - строка совпадающая с предыдущей записью истории не сохраняется
+1. Скобки `{}` применимо использовать в составных командах для группировки типовых значений команд в одну и последующего выполнения в текущем контексте.  Описано строчке **236** `man bash`
+1. Создать 100000 файлов, однократным вызовом, можно командой:
+	* `touch file{0..099999}`
+	
+	Создать 300000 файлов не удалось по причине превышения максимальной длины буфера аргументов.
+1. В man bash выполнил поиск `[[`. Конструкция `[[ -d /tmp ]]` это условное выражение возвращающее значение **"истина"** если файл существует и является директорией (в случае с /tmp "истина").
+1. Для получения вывода `type -a bash` по шаблону (первая строка содержит путь `/tmp/new_path_directory/`) необходимо выполнить следующие команды:
+	* `mkdir /tmp/new_patch_directory`
+	* `cp /bin/bash /tmp/new_patch_directory/`
+	* `PATH=/tmp/new_patch_directory/:$PATH`
+	![Proof](https://octodex.github.com/images/proof-03-sa-01.png)	
 
-   **Решение**: `git log -S globalPluginDirs --pretty=oneline`
+1. Планирование команд с помощью `batch` и `at` отличается условиями выполнения:
+	* `at` выполняет команды в указанное время
+	* `batch` выполняет команды, когда позволяет уровень загрузки системы
 
-
-7. Автор функции **synchronizedWriters**:
-   * Martin Atkins
-   
-   **Решение**: `git log -S synchronizedWriters --pretty=format:"%h | %an | %cn"`
+1. Завершил работу виртуальной машины ;-).
