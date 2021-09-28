@@ -26,10 +26,5 @@
    
    ``ssh -t localhost 'tty'``
 
-1. Установил **reptyr**. Попробовал переместить запущенный процесс из одной сессии в другую `reptyr`. В первой сессии выполнился останов программы. На второй `reptyr` выдал ошибку:  
-   ```Unable to attach to pid 3819: Operation not permitted
-   The kernel denied permission while attaching. If your uid matches
-   the target's, check the value of /proc/sys/kernel/yama/ptrace_scope.
-   For more information, see /etc/sysctl.d/10-ptrace.conf
-   ```
+1. Установил **reptyr**. Попробовал переместить запущенный процесс из одной сессии в другую с использованием `reptyr`. В первой сессии выполнился останов программы. На второй произошло переключение pts 0 появился в `pstree` процесс `reptyr`. 
 1. Команда `tee` считывает из **stdin** и пишет в **stdout** и файлы. Конструкция `echo string | sudo tee /root/new_file` передаст через конвейер на stdin `tee` (запущенной с правами su) строку и соответственно произведёт запись в файл (так как права на запись в `/root` будут)
