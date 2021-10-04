@@ -85,5 +85,5 @@
    test.gz:         OK
    ```
 
-1. Погасите тестовый хост, `vagrant destroy`.
+1. Уничтожил тестовый хост, `vagrant destroy`.
  
