@@ -1,97 +1,89 @@
 # Домашнее задание к занятию "3.5. Файловые системы"
 
-1. Узнайте о [sparse](https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D1%80%D0%B5%D0%B6%D1%91%D0%BD%D0%BD%D1%8B%D0%B9_%D1%84%D0%B0%D0%B9%D0%BB) (разряженных) файлах.
+1. Прочитал о разрежённых файлах (sparse file).
 
-1. Могут ли файлы, являющиеся жесткой ссылкой на один объект, иметь разные права доступа и владельца? Почему?
+1. Файлы, являющиеся жесткой ссылкой на один объект, не могут иметь разные права доступа и владельца, так как имеют одинаковый индексный дескриптор (inode) в котором хранится метаинформация.
 
-1. Сделайте `vagrant destroy` на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:
+1. Выполнил `vagrant destroy` на имеющийся инстанс Ubuntu. Заменил содержимое Vagrantfile требуемой конфигурацией.
 
-    ```bash
-    Vagrant.configure("2") do |config|
-      config.vm.box = "bento/ubuntu-20.04"
-      config.vm.provider :virtualbox do |vb|
-        lvm_experiments_disk0_path = "/tmp/lvm_experiments_disk0.vmdk"
-        lvm_experiments_disk1_path = "/tmp/lvm_experiments_disk1.vmdk"
-        vb.customize ['createmedium', '--filename', lvm_experiments_disk0_path, '--size', 2560]
-        vb.customize ['createmedium', '--filename', lvm_experiments_disk1_path, '--size', 2560]
-        vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', lvm_experiments_disk0_path]
-        vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', lvm_experiments_disk1_path]
-      end
-    end
+1. Разбил первый диск на 2 раздела: 2 Гб и оставшееся пространство.
+
+1. Перенёс данную таблицу разделов на второй диск:
+   
+   `sfdisk -d /dev/sdb | sfdisk /dev/sdc`
+
+1. Собрал `mdadm` RAID1 на паре разделов 2 Гб:
+   
+   `mdadm --create --verbose /dev/md1 -l 1 -n 2 /dev/sdb1 /dev/sdc1`
+
+1. Собрал `mdadm` RAID0 на второй паре маленьких разделов:
+
+   `mdadm --create --verbose /dev/md1 -l 0 -n 2 /dev/sdb2 /dev/sdc2`
+
+1. Создал 2 независимых PV на получившихся md-устройствах:
+
+   `pvcreate /dev/md1 /dev/md0`
+
+1. Создал общую volume-group на этих двух PV:
+
+   `vgcreate vg0 /dev/md1 /dev/md0`
+
+1. Создал LV размером 100 Мб, указав его расположение на PV с RAID0:
+
+   `lvcreate -L 100M -n lv0 /dev/vg0 /dev/md0`
+
+1. Создал `mkfs.ext4` ФС на получившемся LV:
+
+   `mkfs.ext4 -L tst_lv0 /dev/vg0/lv0`
+
+1. Смонтировал этот раздел в директорию, `/tmp/tst_mnt`:
+
+   ```bash
+   mkdir /tmp/tst_mnt
+   mount /dev/vg0/lv0 /tmp/tst_mnt/
+   ```
+
+1. Поместил тестовый файл:
+   
+   ```bash
+   wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
+   ```
+   
+1. Прикрепил вывод `lsblk`:
+
+   ![Proof](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-04-fs-01.png) 
+
+1. Протестировал целостность файла:
+
+   ```bash
+   gzip -v -t test.gz
+   test.gz:         OK
     ```
 
-    Данная конфигурация создаст новую виртуальную машину с двумя дополнительными неразмеченными дисками по 2.5 Гб.
+1. Используя pvmove, переместил содержимое PV с RAID0 на RAID1:
 
-1. Используя `fdisk`, разбейте первый диск на 2 раздела: 2 Гб, оставшееся пространство.
+   ```bash
+   pvmove /dev/md0 /dev/md1
+   /dev/md0: Moved: 24.00%
+   /dev/md0: Moved: 100.00%
+   ```
 
-1. Используя `sfdisk`, перенесите данную таблицу разделов на второй диск.
+1. Сделал `--fail` на устройство /dev/sdc1 в RAID1 md:
 
-1. Соберите `mdadm` RAID1 на паре разделов 2 Гб.
+   ```bash
+   mdadm /dev/md1 --fail /dev/sdc1
+   ```
 
-1. Соберите `mdadm` RAID0 на второй паре маленьких разделов.
+1. Подтверждение вывода `dmesg`, что RAID1 работает в деградированном состоянии:
 
-1. Создайте 2 независимых PV на получившихся md-устройствах.
+   ![Proof](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-04-fs-02.png)
 
-1. Создайте общую volume-group на этих двух PV.
+1. Протестировал целостность файла, продолжает быть доступен:
 
-1. Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
-
-1. Создайте `mkfs.ext4` ФС на получившемся LV.
-
-1. Смонтируйте этот раздел в любую директорию, например, `/tmp/new`.
-
-1. Поместите туда тестовый файл, например `wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz`.
-
-1. Прикрепите вывод `lsblk`.
-
-1. Протестируйте целостность файла:
-
-    ```bash
-    root@vagrant:~# gzip -t /tmp/new/test.gz
-    root@vagrant:~# echo $?
-    0
-    ```
-
-1. Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
-
-1. Сделайте `--fail` на устройство в вашем RAID1 md.
-
-1. Подтвердите выводом `dmesg`, что RAID1 работает в деградированном состоянии.
-
-1. Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
-
-    ```bash
-    root@vagrant:~# gzip -t /tmp/new/test.gz
-    root@vagrant:~# echo $?
-    0
-    ```
+   ```bash
+   gzip -v -t test.gz
+   test.gz:         OK
+   ```
 
 1. Погасите тестовый хост, `vagrant destroy`.
-
  
- ---
-
-## Как сдавать задания
-
-Обязательными к выполнению являются задачи без указания звездочки. Их выполнение необходимо для получения зачета и диплома о профессиональной переподготовке.
-
-Задачи со звездочкой (*) являются дополнительными задачами и/или задачами повышенной сложности. Они не являются обязательными к выполнению, но помогут вам глубже понять тему.
-
-Домашнее задание выполните в файле readme.md в github репозитории. В личном кабинете отправьте на проверку ссылку на .md-файл в вашем репозитории.
-
-Также вы можете выполнить задание в [Google Docs](https://docs.google.com/document/u/0/?tgif=d) и отправить в личном кабинете на проверку ссылку на ваш документ.
-Название файла Google Docs должно содержать номер лекции и фамилию студента. Пример названия: "1.1. Введение в DevOps — Сусанна Алиева".
-
-Если необходимо прикрепить дополнительные ссылки, просто добавьте их в свой Google Docs.
-
-Перед тем как выслать ссылку, убедитесь, что ее содержимое не является приватным (открыто на комментирование всем, у кого есть ссылка), иначе преподаватель не сможет проверить работу. Чтобы это проверить, откройте ссылку в браузере в режиме инкогнито.
-
-[Как предоставить доступ к файлам и папкам на Google Диске](https://support.google.com/docs/answer/2494822?hl=ru&co=GENIE.Platform%3DDesktop)
-
-[Как запустить chrome в режиме инкогнито ](https://support.google.com/chrome/answer/95464?co=GENIE.Platform%3DDesktop&hl=ru)
-
-[Как запустить  Safari в режиме инкогнито ](https://support.apple.com/ru-ru/guide/safari/ibrw1069/mac)
-
-Любые вопросы по решению задач задавайте в чате Slack.
-
----
