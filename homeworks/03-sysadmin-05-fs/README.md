@@ -51,7 +51,7 @@
    
 1. Прикрепил вывод `lsblk`:
 
-   ![Proof](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-04-fs-01.png) 
+   ![Proof](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-05-fs-01.png) 
 
 1. Протестировал целостность файла:
 
@@ -76,7 +76,7 @@
 
 1. Подтверждение вывода `dmesg`, что RAID1 работает в деградированном состоянии:
 
-   ![Proof](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-04-fs-02.png)
+   ![Proof](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-05-fs-02.png)
 
 1. Протестировал целостность файла, продолжает быть доступен:
 
