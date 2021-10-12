@@ -35,17 +35,17 @@
 
         ![proof08](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-08.png)
 
-        ![proof09](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-07.png)
+        ![proof09](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-09.png)
 
-        ![proof10](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-08.png)
+        ![proof10](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-10.png)
 
     1. Выполнил имитацию отказа остановив `keeplived` на **kaa-lb1** `systemctl stop keepalived`, проверил работу на **kaa-lb2**, отправив 100 запросов с **kaa-cl**:
 
-        ![proof11](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-09.png)
+        ![proof11](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-11.png)
 
-        ![proof12](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-07.png)
+        ![proof12](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-12.png)
 
-        ![proof13](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-08.png)
+        ![proof13](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-13.png)
       
 1. Если при 3 Virtual IP будут потери, значит 4 VIP должно хватить (С учётом обсуждения в чате).
 
