@@ -1,34 +1,52 @@
 # Домашнее задание к занятию "3.8. Компьютерные сети, лекция 3"
 
-1. ipvs. Если при запросе на VIP сделать подряд несколько запросов (например, `for i in {1..50}; do curl -I -s 172.28.128.200>/dev/null; done `), ответы будут получены почти мгновенно. Тем не менее, в выводе `ipvsadm -Ln` еще некоторое время будут висеть активные `InActConn`. Почему так происходит?
+1. В соответствии с логикой программы при работе балансировщика `ipvs` (директора), в режиме прямой маршрутизации (DR), ответ от реального сервера минует сервер балансировки. И соответственно директор не знает статуса TCP-соединения реального сервера с клиентом. И так как HTTP сразу закрывает соединение, запись в столбце `InActConn` будет видна пока не истечёт время ожидания соединения 
 
-1. На лекции мы познакомились отдельно с ipvs и отдельно с keepalived. Воспользовавшись этими знаниями, совместите технологии вместе (VIP должен подниматься демоном keepalived). Приложите конфигурационные файлы, которые у вас получились, и продемонстрируйте работу получившейся конструкции. Используйте для директора отдельный хост, не совмещая его с риалом! Подобная схема возможна, но выходит за рамки рассмотренного на лекции.
+1. Подготовил и сконфигурировал через [vagrantconf](https://github.com/crursus/devops-netology/blob/main/homeworks/03-sysadmin-08-net/vagrantconf) 5 ВМ:
+    > Пока не получилось передать файл конфигурации в box VM 
 
-1. В лекции мы использовали только 1 VIP адрес для балансировки. У такого подхода несколько отрицательных моментов, один из которых – невозможность активного использования нескольких хостов (1 адрес может только переехать с master на standby). Подумайте, сколько адресов оптимально использовать, если мы хотим без какой-либо деградации выдерживать потерю 1 из 3 хостов при входящем трафике 1.5 Гбит/с и физических линках хостов в 1 Гбит/с? Предполагается, что мы хотим задействовать 3 балансировщика в активном режиме (то есть не 2 адреса на 3 хоста, один из которых в обычное время простаивает).
+    |Имя|IP-адрес|
+    |:---:|:---:|      
+    |kaa-cl|172.28.128.10|
+    |kaa-bl1|172.28.128.21|
+    |kaa-bl2|172.28.128.22|
+    |kaa-srv1|172.28.128.31|
+    |kaa-srv2|172.28.128.32|
+    
+    1. Модифицировал файл [keepalived.conf](https://github.com/crursus/devops-netology/blob/main/homeworks/03-sysadmin-08-net/keepalived.conf)
+    1. Проверил статус `keepalived`:
 
- ---
+        ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-01.png)
+    
+        ![proof02](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-02.png)
+    1. Вывод `ipvsadm -Ln` до отправки запросов:
 
-## Как сдавать задания
+        ![proof03](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-03.png)
 
-Обязательными к выполнению являются задачи без указания звездочки. Их выполнение необходимо для получения зачета и диплома о профессиональной переподготовке.
+        ![proof04](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-04.png)
+    
+        ![proof05](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-05.png)
+    
+        ![proof06](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-06.png)
 
-Задачи со звездочкой (*) являются дополнительными задачами и/или задачами повышенной сложности. Они не являются обязательными к выполнению, но помогут вам глубже понять тему.
+    1. Получил 100 ответов выполнив `for i in {1..100}; do curl -I -s http://172.28.128.200>/dev/null; done`. Балансировка работает с **kaa-lb1**:
 
-Домашнее задание выполните в файле readme.md в github репозитории. В личном кабинете отправьте на проверку ссылку на .md-файл в вашем репозитории.
+        ![proof07](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-07.png)
 
-Также вы можете выполнить задание в [Google Docs](https://docs.google.com/document/u/0/?tgif=d) и отправить в личном кабинете на проверку ссылку на ваш документ.
-Название файла Google Docs должно содержать номер лекции и фамилию студента. Пример названия: "1.1. Введение в DevOps — Сусанна Алиева".
+        ![proof08](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-08.png)
 
-Если необходимо прикрепить дополнительные ссылки, просто добавьте их в свой Google Docs.
+        ![proof09](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-07.png)
 
-Перед тем как выслать ссылку, убедитесь, что ее содержимое не является приватным (открыто на комментирование всем, у кого есть ссылка), иначе преподаватель не сможет проверить работу. Чтобы это проверить, откройте ссылку в браузере в режиме инкогнито.
+        ![proof10](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-08.png)
 
-[Как предоставить доступ к файлам и папкам на Google Диске](https://support.google.com/docs/answer/2494822?hl=ru&co=GENIE.Platform%3DDesktop)
+    1. Выполнил имитацию отказа остановив `keeplived` на **kaa-lb1** `systemctl stop keepalived`, проверил работу на **kaa-lb2**, отправив 100 запросов с **kaa-cl**:
 
-[Как запустить chrome в режиме инкогнито ](https://support.google.com/chrome/answer/95464?co=GENIE.Platform%3DDesktop&hl=ru)
+        ![proof11](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-09.png)
 
-[Как запустить  Safari в режиме инкогнито ](https://support.apple.com/ru-ru/guide/safari/ibrw1069/mac)
+        ![proof12](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-07.png)
 
-Любые вопросы по решению задач задавайте в чате Slack.
+        ![proof13](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-08-net-08.png)
+      
+1. Если при 3 Virtual IP будут потери, значит 4 VIP должно хватить (С учётом обсуждения в чате).
 
----
+    > Может быть есть какие-то универсальные методики расчёта?
