@@ -70,6 +70,8 @@
       
 1. Модифицировал `/etc/hosts` и [системный trust-store](http://manpages.ubuntu.com/manpages/focal/en/man8/update-ca-certificates.8.html) `update-ca-certificates`, добился безошибочной с точки зрения HTTPS работы curl на ваш тестовый домен (отдающийся с localhost). Добавил в доверенные сертификаты Intermediate CA
    
+   `curl -I --proto https https://netology.example.com`
+   
    ![proof07](https://github.com/crursus/devops-netology/blob/main/images/proof-03-sa-09-sec-07.png)
 
 1. Ознакомился с протоколом ACME и CA Let's encrypt. Попробую сделать.
