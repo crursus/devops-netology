@@ -45,7 +45,7 @@
         prepare_result = result.replace('\tmodified:   ', ' ')
         print(prepare_result)
 	```
- 	![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-04-script-02-py-01.png)
+ 	![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-04-script-02-py-001.png)
    
 
 1. Написал скрипт, который опрашивает веб-сервисы, получает их IP, выводит информацию в стандартный вывод в виде: <URL сервиса> - <его IP>. Также реализована возможность проверки текущего IP сервиса c его IP из предыдущей проверки:
@@ -86,5 +86,5 @@
 	file1.write(output)
 	file1.close()
  	```
-	![proof02](https://github.com/crursus/devops-netology/blob/main/images/proof-04-script-02-py-02.png)
-	![proof03](https://github.com/crursus/devops-netology/blob/main/images/proof-04-script-02-py-03.png)
+	![proof02](https://github.com/crursus/devops-netology/blob/main/images/proof-04-script-02-py-002.png)
+	![proof03](https://github.com/crursus/devops-netology/blob/main/images/proof-04-script-02-py-003.png)
