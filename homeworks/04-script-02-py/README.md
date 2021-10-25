@@ -36,7 +36,7 @@
 	if (os.access(bash_arg+'/.git', os.F_OK) and os.path.exists(bash_arg)):
     	print('Найден локальный репозиторий GIT по заданному пути')
 	else:
-    	sys.exit('Не найден локальный репозиторий GIT по заданному пути')
+    	exit('Не найден локальный репозиторий GIT по заданному пути')
 	
 	bash_command = ['cd '+bash_arg, 'git status']
 	result_os = os.popen(' && '.join(bash_command)).read()
