@@ -2,31 +2,76 @@
 
 ## Обязательные задания
 
-1. Мы выгрузили JSON, который получили через API запрос к нашему сервису:
+1. Исправил ошибки в файле JSON (расставил кавычки):
 	```json
-    { "info" : "Sample JSON output from our service\t",
-        "elements" :[
-            { "name" : "first",
-            "type" : "server",
-            "ip" : 7175 
-            },
-            { "name" : "second",
-            "type" : "proxy",
-            "ip : 71.78.22.43
-            }
-        ]
-    }
+	{
+	    "info": "Sample JSON output from our service\t",
+	    "elements": [
+	        {
+	            "name": "first",
+	            "type": "server",
+	            "ip": "7175"
+	        },
+	        {
+	            "name": "second",
+	            "type": "proxy",
+	            "ip": "71.78.22.43"
+	        }
+	    ]
+	}
 	```
-  Нужно найти и исправить все ошибки, которые допускает наш сервис
 
-2. В прошлый рабочий день мы создавали скрипт, позволяющий опрашивать веб-сервисы и получать их IP. К уже реализованному функционалу нам нужно добавить возможность записи JSON и YAML файлов, описывающих наши сервисы. Формат записи JSON по одному сервису: { "имя сервиса" : "его IP"}. Формат записи YAML по одному сервису: - имя сервиса: его IP. Если в момент исполнения скрипта меняется IP у сервиса - он должен так же поменяться в yml и json файле.
-
-## Дополнительное задание (со звездочкой*) - необязательно к выполнению
-
-Так как команды в нашей компании никак не могут прийти к единому мнению о том, какой формат разметки данных использовать: JSON или YAML, нам нужно реализовать парсер из одного формата в другой. Он должен уметь:
-   * Принимать на вход имя файла
-   * Проверять формат исходного файла. Если файл не json или yml - скрипт должен остановить свою работу
-   * Распознавать какой формат данных в файле. Считается, что файлы *.json и *.yml могут быть перепутаны
-   * Перекодировать данные из исходного формата во второй доступный (из JSON в YAML, из YAML в JSON)
-   * При обнаружении ошибки в исходном файле - указать в стандартном выводе строку с ошибкой синтаксиса и её номер
-   * Полученный файл должен иметь имя исходного файла, разница в наименовании обеспечивается разницей расширения файлов
+2. Модифицировал скрипт из прошлого ДЗ
+	```python
+	  #!/usr/bin/env python3
+	  
+	  import socket
+	  import os
+	  import datetime
+	  import json
+	  import yaml
+	  
+	  hostnames_arg = ['drive.google.com', 'mail.google.com', 'google.com', 'ya.ru']
+	  if os.path.exists('check_db'): # & (os.stat('check_db')): добавить проверок
+	      file = open('check_db', 'r')
+	      chk_dict = {}
+	      rows = file.read().split('  ')
+	      del rows[-1] # поправить
+	      for row in rows:
+	          url = row.split(' ')[0]
+	          ip = row.split(' ')[1]
+	          chk_dict[url] = ip
+	      file.close()
+	  else:
+	      print('Проверка не производилась, не с чем сравнивать')
+	      chk_dict = {'drive.google.com': '0.0.0.0', 'mail.google.com': '0.0.0.0', 'google.com': '0.0.0.0', 'ya.ru': '0.0.0.0'}
+	      file = open('check_db', 'w')
+	      file.write('')
+	      file.close()
+	  output = ''
+	  file1 = open('check_db', 'w')
+	  json_out = ''
+	  json_file = open('test.json', 'w')
+	  yaml_out = ''
+	  yaml_file = open('test.yml', 'w')
+	  for url in hostnames_arg:
+	      ip = socket.gethostbyname(url)
+	      output = output+url+' '+ip+'  '
+	      json_out = json_out+' '+json.dumps({url: ip})
+	      yaml_out = yaml_out+' '+yaml.dump({url: ip})
+	      if chk_dict[url] == ip:
+	          print(str(datetime.datetime.now())+' '+url+' '+ip)
+	      else:
+	          print(str(datetime.datetime.now())+' [ERROR] '+url+' IP mismatch: '+chk_dict[url]+' '+ip)
+	  file1.write(output)
+	  file1.close()
+	  json_file.write(json_out)
+	  json_file.close()
+	  yaml_file.write(yaml_out)
+	  yaml_file.close()
+	```
+	![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-04-script-03-yaml-01.png)
+   
+	[test.json](https://github.com/crursus/devops-netology/blob/main/homeworks/04-script-03-yaml/test.json
+   
+    [test.yml](https://github.com/crursus/devops-netology/blob/main/homeworks/04-script-03-yaml/test.yml
