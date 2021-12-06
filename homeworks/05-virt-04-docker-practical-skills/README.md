@@ -1,8 +1,5 @@
 # Домашнее задание к занятию "5.4. Практические навыки работы с Docker"
 
-## Задача 1 
-
-
 1.  * Изменил базовый образ предложенного Dockerfile на Arch Linux c сохранением его функциональности:
     
         ```text
@@ -20,9 +17,7 @@
             ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-practical-skills-01.png)
         - [Ссылка на хранилище hub.docker.com](https://hub.docker.com/r/crursus/kaa-al-ponysay "crursus/kaa-al-ponysay")
 
-## Задача 2 
-
-В данной задаче вы составите несколько разных Dockerfile для проекта Jenkins, опубликуем образ в `dockerhub.io` и посмотрим логи этих контейнеров.
+2.  * В данной задаче вы составите несколько разных Dockerfile для проекта Jenkins, опубликуем образ в `dockerhub.io` и посмотрим логи этих контейнеров.
 
 - Составьте 2 Dockerfile:
 
