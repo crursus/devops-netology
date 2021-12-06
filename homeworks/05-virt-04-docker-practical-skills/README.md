@@ -2,28 +2,23 @@
 
 ## Задача 1 
 
-В данном задании вы научитесь изменять существующие Dockerfile, адаптируя их под нужный инфраструктурный стек.
 
-Измените базовый образ предложенного Dockerfile на Arch Linux c сохранением его функциональности.
-
-```text
-FROM ubuntu:latest
-
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:vincent-c/ponysay && \
-    apt-get update
- 
-RUN apt-get install -y ponysay
-
-ENTRYPOINT ["/usr/bin/ponysay"]
-CMD ["Hey, netology”]
-```
-
-Для получения зачета, вам необходимо предоставить:
-- Написанный вами Dockerfile
-- Скриншот вывода командной строки после запуска контейнера из вашего базового образа
-- Ссылку на образ в вашем хранилище docker-hub
+1.  * Изменил базовый образ предложенного Dockerfile на Arch Linux c сохранением его функциональности:
+    
+        ```text
+        FROM archlinux:latest
+        
+        RUN yes | pacman -Syu ponysay
+        
+        ENTRYPOINT ["/usr/bin/ponysay"]
+        CMD ["Hey, netology”]
+        ```
+    * Прикладываю:
+        - [Dockerfile](https://github.com/crursus/devops-netology/blob/main/homeworks/05-virt-04-docker-practical-skills/dockerfile)
+        - Скриншот вывода командной строки после запуска контейнера из вашего базового образа
+          
+            ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-practical-skills-01.png)
+        - [Ссылка на хранилище hub.docker.com](https://hub.docker.com/r/crursus/kaa-al-ponysay "crursus/kaa-al-ponysay")
 
 ## Задача 2 
 
