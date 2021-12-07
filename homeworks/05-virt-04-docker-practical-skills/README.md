@@ -17,30 +17,41 @@
             ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-practical-skills-01.png)
         - [Ссылка на хранилище hub.docker.com](https://hub.docker.com/r/crursus/kaa-al-ponysay "crursus/kaa-al-ponysay")
 
-2.  * В данной задаче вы составите несколько разных Dockerfile для проекта Jenkins, опубликуем образ в `dockerhub.io` и посмотрим логи этих контейнеров.
-
-- Составьте 2 Dockerfile:
-
-    - Общие моменты:
-        - Образ должен запускать [Jenkins server](https://www.jenkins.io/download/)
-        
-    - Спецификация первого образа:
-        - Базовый образ - [amazoncorreto](https://hub.docker.com/_/amazoncorretto)
-        - Присвоить образу тэг `ver1` 
+2.  * Составил 2 Dockerfile:
     
-    - Спецификация второго образа:
-        - Базовый образ - [ubuntu:latest](https://hub.docker.com/_/ubuntu)
-        - Присвоить образу тэг `ver2` 
-
-- Соберите 2 образа по полученным Dockerfile
-- Запустите и проверьте их работоспособность
-- Опубликуйте образы в своём dockerhub.io хранилище
-
-Для получения зачета, вам необходимо предоставить:
-- Наполнения 2х Dockerfile из задания
-- Скриншоты логов запущенных вами контейнеров (из командной строки)
-- Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
-- Ссылки на образы в вашем хранилище docker-hub
+        * Первый образ *amazoncorreto*:
+            - Присвоил образу тэг `ver1` 
+    
+        * Второй образа *ubuntu:latest*:
+            - Присвоил образу тэг `ver2`
+    * Собрал 2 образа по полученным Dockerfile:
+        ```shell
+        docker build -t crursus/kaa-jenkins:ver1 -f 1.dockerfile .
+        docker build -t crursus/kaa-jenkins:ver2 -f 2.dockerfile .
+        ```
+    * Запустил и проверил их работоспособность
+        ```shell
+        docker run -itd -p 8080:8080 --name kaa-jenkins1 crursus/kaa-jenkins:ver1
+        docker build -t crursus/kaa-jenkins:ver2 -f 2.dockerfile .
+        ```      
+    * Опубликовал образы в своём docker хранилище
+        ```shell
+        docker push crursus/kaa-jenkins:ver1
+        docker build -t crursus/kaa-jenkins:ver2 -f 2.dockerfile .
+        ```
+    * Предоставляю:
+        - Наполнения 2х Dockerfile из задания:
+            1. [1.dockerfile](https://github.com/crursus/devops-netology/blob/main/homeworks/05-virt-04-docker-practical-skills/1.dockerfile)
+            2. [2.dockerfile](https://github.com/crursus/devops-netology/blob/main/homeworks/05-virt-04-docker-practical-skills/2.dockerfile)
+        - Скриншоты веб-интерфейса Jenkins запущенных вами контейнеров (достаточно 1 скриншота на контейнер)
+            1. ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-practical-skills-02.png)
+            2.
+        - Скриншоты логов запущенных вами контейнеров (из командной строки)
+            1.  
+            2.
+        - Ссылки на образы в вашем хранилище docker-hub
+            1. 
+            2. 
 
 ## Задача 3 
 
