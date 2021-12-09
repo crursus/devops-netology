@@ -66,7 +66,7 @@
         docker run -d -p 3000:3000 --net=bridgetest --name kaa-node crursus/kaa-node:v1.0 npm start 172.18.0.2
         ```
 
-    * Запустить второй контейнер из образа ubuntu:latest
+    * Запустил второй контейнер из образа ubuntu:latest
         ```shell
         docker run -itd --name kaa-ubuntu ubuntu
         ```    
