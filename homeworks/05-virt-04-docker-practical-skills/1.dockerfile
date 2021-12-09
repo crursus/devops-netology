@@ -7,4 +7,4 @@ RUN rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key && yum inst
 EXPOSE 8080
 #EXPOSE 50000
 
-CMD ["java", "-jar", "/usr/lib/jenkins/jenkins.war"]
+CMD ["java", "-jar", "/usr/share/jenkins/jenkins.war"]
