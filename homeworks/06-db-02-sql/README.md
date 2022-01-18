@@ -14,10 +14,14 @@
     ```
     * Создал пользователя test-admin-user и БД test_db
     ```shell
+    create user "test-admin-user";
     create database test_db;
-    
     ```
     * в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже)
+    ```shell
+    create table orders (id primary key, "Наименование" varchar(30), "Цена" int);
+    create database test_db;
+    ```
     * предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db
     * создайте пользователя test-simple-user  
     * предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE данных таблиц БД test_db
@@ -33,8 +37,8 @@
     - страна проживания (string, index)
     - заказ (foreign key orders)
 
-    
-## Задача 2
+---
+3.
 
 В БД из задачи 1: 
 
