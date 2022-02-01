@@ -14,40 +14,61 @@
 
 1. 
     * Установил **docker-compose**:
+      ```shell
+      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      sudo apt-get update && sudo apt-get install packer
+      ```
+    * Активировал промокод из письма. Установил и настроил CLI **Yandex Cloud**:
+      ```shell
+      curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+      yc init
+      yc config list
+      yc compute image list
+      yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
+      yc vpc subnet create --name my-subnet-a --zone ru-central1-a --range 10.1.2.0/24 --network-name net --description "my first subnet via yc"
+      ```
+    * Установил Terraform
        ```shell
-       sudo apt install -y docker-compose
+      sudo apt-get update && sudo apt-get install terraform
        ```
-    *   
-    * 
-
-
-Создать собственный образ операционной системы с помощью Packer.
-
-Для получения зачета, вам необходимо предоставить:
-- Скриншот страницы, как на слайде из презентации (слайд 37).
-
+    * Создал собственный образ операционной системы с помощью Packer:
+   
+       ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-01.png)
+    
 ---
 2. 
-Создать вашу первую виртуальную машину в Яндекс.Облаке.
-
-Для получения зачета, вам необходимо предоставить:
-- Скриншот страницы свойств созданной ВМ, как на примере ниже:
-
-<p align="center">
-  <img width="1200" height="600" src="./assets/yc_01.png">
-</p>
-
+   * Создал сервисную учётную запись:
+      ```shell
+      yc iam service-account create --name kaa-yc
+      ```   
+   * Сгенерировал ключ для учётной записи:
+      ```shell
+      yc iam key create --service-account-id ajevi9l5d8dok98i5o9a -o key.json
+      ```
+   * Создал SSH ключи:
+      ```shell
+      ssh-keygen
+      ```
+   * Создал первую виртуальную машину в **Yandex Cloud**. В файле provider.tf Заменил параметр `service_account_key_file = "key.json"` на `token = "my-token"` 
+      ```shell
+      terraform init
+      terraform plan
+      terraform apply -auto-approve
+      ```
+    * Создал собственный образ операционной системы с помощью Packer:
+   
+       ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-02.png)
+    
 ---
 3. 
 
-Создать ваш первый готовый к боевой эксплуатации компонент мониторинга, состоящий из стека микросервисов.
-
-Для получения зачета, вам необходимо предоставить:
-- Скриншот работающего веб-интерфейса Grafana с текущими метриками, как на примере ниже
-<p align="center">
-  <img width="1200" height="600" src="./assets/yc_02.png">
-</p>
-
+   * Создал первый готовый к боевой эксплуатации компонент мониторинга, состоящий из стека микросервисов:
+      ```shell
+      ansible-playbook provision.yml
+      ```
+     ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-03.png)
+  
 ---
 
 4. (*)
