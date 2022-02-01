@@ -33,8 +33,11 @@
       sudo apt-get update && sudo apt-get install terraform
        ```
     * Создал собственный образ операционной системы с помощью Packer:
-   
-       ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-01.png)
+       ```shell
+      packer validate centos-7-base.json
+      
+       ```
+      ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-01.png)
     
 ---
 2. 
@@ -56,8 +59,7 @@
       terraform plan
       terraform apply -auto-approve
       ```
-    * Создал собственный образ операционной системы с помощью Packer:
-   
+  
        ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-02.png)
     
 ---
