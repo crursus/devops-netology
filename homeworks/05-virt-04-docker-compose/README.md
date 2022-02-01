@@ -68,12 +68,4 @@
       ansible-playbook provision.yml
       ```
      ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-03.png)
-  
----
-
-4. (*)
-Создать вторую ВМ и подключить её к мониторингу развёрнутому на первом сервере.
-
-Для получения зачета, вам необходимо предоставить:
-- Скриншот из Grafana, на котором будут отображаться метрики добавленного вами сервера.
-
+   
