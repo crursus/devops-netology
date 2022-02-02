@@ -35,8 +35,13 @@
     * Создал собственный образ операционной системы с помощью Packer:
        ```shell
       packer validate centos-7-base.json
-      
+      packer build centos-7-base.json
        ```
+    * Удалил сеть и подсеть после сборки образа ОС:
+      ```shell
+      yc vpc subnet delete --name my-subnet-a      
+      yc vpc network delete --name net
+      ```      
       ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-01.png)
     
 ---
@@ -60,7 +65,7 @@
       terraform apply -auto-approve
       ```
   
-       ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-02.png)
+       ![proof02](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-02.png)
     
 ---
 3. 
@@ -69,5 +74,5 @@
       ```shell
       ansible-playbook provision.yml
       ```
-     ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-03.png)
+     ![proof03](https://github.com/crursus/devops-netology/blob/main/images/proof-05-virt-04-docker-compose-03.png)
    
