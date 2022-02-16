@@ -57,7 +57,7 @@
         become: true
 
       - name: Pull all images in compose
-        command: docker-compose -f /opt/stack/docker-compose.yaml pull
+        command: docker-compose -f /opt/stack/docker-compose.yml pull
 
       - name: Up all services in compose
-        command: docker-compose -f /opt/stack/docker-compose.yaml up -d
+        command: docker-compose -f /opt/stack/docker-compose.yml up -d
