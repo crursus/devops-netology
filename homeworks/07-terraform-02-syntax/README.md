@@ -17,4 +17,4 @@
     ![proof02](https://github.com/crursus/devops-netology/blob/main/images/proof-07-terraform-02-syntax-02.png)
    * В качестве результата задания предоставляю:
      - Ответ на вопрос: Для создания своего образ ami можно использовать ``Packer``
-     - Ссылку на репозиторий с исходной конфигурацией терраформа: [Конфигурация](https://github.com/crursus/devops-netology/)
+     - Ссылку на репозиторий с исходной конфигурацией терраформа: [Конфигурация](https://github.com/crursus/devops-netology/tree/main/homeworks/07-terraform-02-syntax)
