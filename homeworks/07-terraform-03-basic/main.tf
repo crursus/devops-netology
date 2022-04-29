@@ -1,6 +1,6 @@
 // Configure the Yandex.Cloud provider
 provider "yandex" {
-  token                    = "AQAAAAAndxpbAATuwYe5dTeAXkdApZwoFoOmMHw"
+  token                    = "Token"
 //  service_account_key_file = "key.json"
   cloud_id                 = "b1g3ii1qu7gekn8tbs9i"
   folder_id                = "b1gsnd3rguol7eah762s"
