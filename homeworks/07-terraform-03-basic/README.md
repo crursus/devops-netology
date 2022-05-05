@@ -17,7 +17,7 @@
 
      ![proof01](https://github.com/crursus/devops-netology/blob/main/images/proof-07-terraform-03-basic-01.png)
 
-   * В уже созданный `yandex_compute_instance` добавил зависимость типа инстанса от вокспейса, что бы в разных ворскспейсах 
+   * В уже созданный `yandex_compute_instance` добавил зависимость типа инстанса от воркспейса, что бы в разных ворскспейсах 
 использовались разные `instance_type`.
    * Добавил `count`. Для `stage` должен создаться один экземпляр `aws`, а для `prod` два. 
    * Создал рядом еще один `yandex_compute_instance`, но теперь определил их количество при помощи `for_each`, а не `count`.
