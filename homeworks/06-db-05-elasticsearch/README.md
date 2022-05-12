@@ -1,5 +1,31 @@
 # Домашнее задание к занятию "6.5. Elasticsearch"
 
+### Задача 1
+   * Используя докер образ [elasticsearch:7](https://hub.docker.com/_/elasticsearch) как базовый:
+     - составил Dockerfile-манифест для elasticsearch
+     - собрал docker-образ и сделал `push` в "мой" docker.io репозиторий
+     ```shell
+        sudo docker image build .
+        sudo docker tag 71aa428a64d2 crursus/kaa-elasticsearch:latest
+        sudo docker login
+        sudo docker push crursus/kaa-elasticsearch
+     ```
+     - запустил контейнер из получившегося образа и выполнил запрос пути `/` c хост-машины
+     ```shell
+        docker run -di --name kaa-es --user kaa -p 9200:9200 crursus/kaa-elasticsearch:latest
+        docker exec -it netology-elastic curl localhost:9200
+     ```
+   * В ответе привожу:
+     - текст Dockerfile манифеста
+     
+     - ссылку на образ в репозитории dockerhub
+        [kaa-elasticsearch](https://hub.docker.com/r/crursus/kaa-elasticsearch "crursus/kaa-elasticsearch")
+     - ответ `elasticsearch` на запрос пути `/` в json виде
+     
+---
+
+# Домашнее задание к занятию "6.5. Elasticsearch"
+
 ## Задача 1
 
 В этом задании вы потренируетесь в:
@@ -7,15 +33,14 @@
 - первоначальном конфигурировании elastcisearch
 - запуске elasticsearch в docker
 
-Используя докер образ [centos:7](https://hub.docker.com/_/centos) как базовый и 
-[документацию по установке и запуску Elastcisearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/targz.html):
+Используя докер образ [elasticsearch:7](https://hub.docker.com/_/elasticsearch) как базовый:
 
 - составьте Dockerfile-манифест для elasticsearch
 - соберите docker-образ и сделайте `push` в ваш docker.io репозиторий
 - запустите контейнер из получившегося образа и выполните запрос пути `/` c хост-машины
 
 Требования к `elasticsearch.yml`:
-- данные `path` должны сохраняться в `/var/lib`
+- данные `path` должны сохраняться в `/var/lib` 
 - имя ноды должно быть `netology_test`
 
 В ответе приведите:
@@ -24,10 +49,12 @@
 - ответ `elasticsearch` на запрос пути `/` в json виде
 
 Подсказки:
-- возможно вам понадобится установка пакета perl-Digest-SHA для корректной работы пакета shasum
 - при сетевых проблемах внимательно изучите кластерные и сетевые настройки в elasticsearch.yml
 - при некоторых проблемах вам поможет docker директива ulimit
 - elasticsearch в логах обычно описывает проблему и пути ее решения
+- обратите внимание на настройки безопасности такие как `xpack.security.enabled` 
+- если докер образ не запускается и падает с ошибкой 137 в этом случае может помочь настройка `-e ES_HEAP_SIZE`
+- при настройке `path` возможно потребуется настройка прав доступа на директорию
 
 Далее мы будем работать с данным экземпляром elasticsearch.
 
@@ -89,11 +116,5 @@
 
 Подсказки:
 - возможно вам понадобится доработать `elasticsearch.yml` в части директивы `path.repo` и перезапустить `elasticsearch`
-
----
-
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
 
 ---
