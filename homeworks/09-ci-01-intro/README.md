@@ -1,36 +1,33 @@
-# Домашнее задание к занятию "09.01 Жизненный цикл ПО"
+### Домашнее задание к занятию "09.01 Жизненный цикл ПО"
 
-## Подготовка к выполнению
-1. Получить бесплатную [JIRA](https://www.atlassian.com/ru/software/jira/free)
-2. Настроить её для своей "команды разработки"
+### Подготовка к выполнению
+1. Получил бесплатную [JIRA](https://www.atlassian.com/ru/software/jira/free)
+2. Настроил её для своей "команды разработки"
 3. Создать доски kanban и scrum
 
-## Основная часть
-В рамках основной части необходимо создать собственные workflow для двух типов задач: bug и остальные типы задач. Задачи типа bug должны проходить следующий жизненный цикл:
-1. Open -> On reproduce
-2. On reproduce -> Open, Done reproduce
-3. Done reproduce -> On fix
-4. On fix -> On reproduce, Done fix
-5. Done fix -> On test
-6. On test -> On fix, Done
-7. Done -> Closed, Open
+### Основная часть
+  1. В рамках основной части создал собственные workflow для двух типов задач: 
+    * bug![bug](./../../images/proof-09-ci-01-intro-01.png)
+    * остальные типы задач(simplified) ![simplified](./../../images/proof-09-ci-01-intro-02.png)
 
-Остальные задачи должны проходить по упрощённому workflow:
-1. Open -> On develop
-2. On develop -> Open, Done develop
-3. Done develop -> On test
-4. On test -> On develop, Done
-5. Done -> Closed, Open
+Задачи типа bug проходят следующий жизненный цикл:
+  1. Open -> On reproduce
+  1. On reproduce -> Open, Done reproduce
+  1. Done reproduce -> On fix
+  1. On fix -> On reproduce, Done fix
+  1. Done fix -> On test
+  1. On test -> On fix, Done
+  1. Done -> Closed, Open
 
-Создать задачу с типом bug, попытаться провести его по всему workflow до Done. Создать задачу с типом epic, к ней привязать несколько задач с типом task, провести их по всему workflow до Done. При проведении обеих задач по статусам использовать kanban. Вернуть задачи в статус Open.
-Перейти в scrum, запланировать новый спринт, состоящий из задач эпика и одного бага, стартовать спринт, провести задачи до состояния Closed. Закрыть спринт.
 
-Если всё отработало в рамках ожидания - выгрузить схемы workflow для импорта в XML. Файлы с workflow приложить к решению задания.
+Остальные задачи проходят по упрощённому workflow:
+  1. Open -> On develop
+  2. On develop -> Open, Done develop
+  3. Done develop -> On test
+  4. On test -> On develop, Done
+  5. Done -> Closed, Open
 
----
+Создал задачу с типом bug, провёл его по всему workflow до Done. Создал задачу с типом epic, к ней привязал несколько задач с типом task, провёл их по всему workflow до Done. При проведении обеих задач по статусам использовал kanban. Вернул задачи в статус Open.
+Перешёл в scrum, запланировал новый спринт, состоящий из задач эпика и одного бага, стартовал спринт, провёл задачи до состояния Closed. Закрыл спринт.
 
-### Как оформить ДЗ?
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
-
----
+Всё отработало в рамках ожидания - выгрузил схемы workflow для импорта в XML. Файлы с workflow прикладываю к решению задания: [XML](workflow_schema/)
